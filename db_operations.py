@@ -361,4 +361,52 @@ def check_session_token(token):
         
         return error
     
+
+def add_event_to_db(title, description, date, price, place, event_type,city):
+    connection = connect()
+    cursor = connection.cursor()
+    
+    image_link = None
+    postgres_select_query = """ SELECT place_id FROM place WHERE place.place=%s"""
+    record_to_select = (place)
+    try:
+        cursor.execute(postgres_select_query, record_to_select)
+        place = cursor.fetchall()
+        
+        if(place == []):
+             postgres_select_query = """ SELECT city_id FROM city WHERE city.city=%s"""
+             record_to_select = (city)
+             cursor.execute(postgres_select_query, record_to_select)
+             city_id = cursor.fetchone()
+             
+             if(city_id == None):
+                 postgres_insert_query = """ INSERT INTO city (city, country) VALUES (%s,%s)"""
+                 record_to_insert = (city,"Turkey")
+                 cursor.execute(postgres_insert_query, record_to_insert)
+                 connection.commit()
+            
+                 city_query = """SELECT MAX(city_id) from city"""
+                 cursor.execute(city_query)
+                 city_id = cursor.fetchone()[0]
+            
+             postgres_insert_query = """ INSERT INTO place (place, city_id) VALUES (%s,%s)"""
+             record_to_insert = (place,city_id)
+             cursor.execute(postgres_insert_query, record_to_insert)
+             connection.commit()
+            
+             postgres_select_query = """ SELECT place_id FROM place WHERE place.place=%s"""
+             record_to_select = (place)
+             cursor.execute(postgres_select_query, record_to_select)
+             place_id = cursor.fetchone()[0]
+        
+        postgres_insert_query = """ INSERT INTO event (title, description, date, place_id, price, event_comment_id, image_link) VALUES (%s,%s,%s,%s,%s,%s,%s)"""
+        record_to_insert = (title,description,date, place_id,price, "1",image_link)
+        cursor.execute(postgres_insert_query, record_to_insert)
+        connection.commit()
+        
+        return True
+    
+    except:
+        return False
+        
     

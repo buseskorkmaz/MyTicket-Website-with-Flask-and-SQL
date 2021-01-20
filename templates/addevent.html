@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Register Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static',filename='styles/bootstrap.min.css') }}" rel="stylesheet" >
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static',filename='styles/signin.css') }}" rel="stylesheet">
+  </head>
+
+  <body class="text-center">
+    <form class="form-register" method = "post">
+      <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+      <h1 class="h3 mb-3 font-weight-normal">Add Event Now!</h1>
+      <label for="title" class="sr-only">Title</label>
+      <input type="text" name= "text" id="title" placeholder="Title">
+      <label for="description" class="sr-only">Description</label>
+      <input type="text" name= "description" id="description" placeholder="Description" required>
+      <label for="place" class="sr-only">Place</label>
+      <input type="text"  name= "place" id="place" class="form-control" placeholder="Event place" required>
+      <label for="date" class="sr-only">Date</label>
+      <input type="date" name= "date" id="date" class="form-control" required >
+      <label for="price" class="sr-only">Price</label>
+      <input type="number"  name= "price" id="price" class="form-control" placeholder="150.0" required>
+      <label for="city" class="sr-only">City</label>
+      <input type="text" name= "city" id="city" class="form-control" placeholder="City" required >
+    
+
+     
+      <div class="custom select mb-3">
+         <label for="event_type">Choose favourite music genre:</label>
+            <select id="event types" name="music">
+              <option value=""></option>
+              <option value="Workshop">English Pop</option>
+              <option value="Concert">Turkish Pop</option>
+              <option value="Festival">English Rock</option>
+         
+            </select>
+      </div> 
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Add Event</button>
+      <p class="mt-5 mb-3 text-muted">&copy; 2020-2021</p>
+    </form>
+  </body>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}   
+{% if error %}
+    <p class=error><strong>Error:</strong> {{ error }}
+  {% endif %}
+</html>

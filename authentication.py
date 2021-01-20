@@ -210,7 +210,21 @@ def register():
     
     return render_template('register.html', error=error)
 
-
+@app.route('/addevent', methods=['GET', 'POST'])
+def addevent():
+    title = request.form["title"]
+    description = request.form["description"]
+    date = request.form["date"]
+    price = request.form["price"]
+    place = request.form["place"]
+    event_type = request.form["event_type"]
+    if(add_event_to_db(title, description, date, price, place, event_type)):
+        print('Success')
+        return render_template('addevent.html')
+    else:
+        print('Error')
+        return render_template('addevent.html')
+    
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
   
